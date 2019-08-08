@@ -1,5 +1,11 @@
 var mysql = require("mysql");
-// var inquirer = require("inquirer");
+var inquirer = require("inquirer");
+var customerPick;
+var quantityRequired;
+var stockRemaining;
+var totalCost;
+
+//********************CHALLENGE 1 ******************//
 
 //create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -11,38 +17,125 @@ var connection = mysql.createConnection({
     database: "bamazon_DB"
 });
 
-function selectAll(){
-    connection.query("SELECT * FROM products", function (err, res){
+connection.connect(function (err) {
+    if (err) throw err;
+    console.log("connections id" + " " + connection.threadId);
+
+    //calling function select all to display the list of items in sql
+    selectAll();
+
+    //call askCustomer() to prompt inquirer
+    askCustomer();
+});
+
+
+function selectAll() {
+
+    //select entire data from table "product" in bamazon.sql file.
+    connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         console.log(res);
     });
 }
 
-connection.connect(function(err){
-    if(err) throw err;
-    console.log("connections id"+ " " + connection.threadId);
-    connection.end();
-    // createProduct();
-});
 
-selectAll();
-// connect to the mysql server and sql database
-// connection.connect(function(err){
-//     if (err) throw err;
-//     //calling readProducts to display all the products in database
+function askCustomer() {
 
-//     // readProducts();
-// });
+    //inquirer to check which product does customer require
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "productID",
+                message: "What is the ID of the product you want to buy?"
+            },
+            {
+                type: "input",
+                name: "units",
+                message: "How many units of product do you need?"
+            }
+        ])
 
-// function readProducts(){
-//     console.log("Selecting all products....\n");
-//     connection.query("SELECT * FROM products", function (err,res){
-//         if (Err) throw err;
+        .then(function (customer) {
+            customerPick = customer.productID;
+            quantityRequired = customer.units;
+            //console.log("Product ID:" + " " + customerPick);
+            //console.log("Quantity:" + " " + quantityRequired);
 
-//         //log all the results of select statement
-//         console.log(res);
-//         connection.end();
-//     });
-// }
+            //call readProductID to display the item customer needs
+            readProductID();
 
+        })
+}
+
+function readProductID(customer) {
+    //console.log("User's Cart...\n");
+    connection.query(
+        "SELECT * FROM PRODUCTS WHERE ?",
+        {
+            item_id: customerPick
+        },
+
+        function (err, res) {
+            if (err) throw err;
+            console.log("item displayed" + customerPick);
+            console.log(res);
+        }
+    );
+
+    //call checkAvailability() to check if required item is in stock and to update it's count if it is.
+    checkAvailability();
+}
+
+function checkAvailability(customer) {
+    //console.log("Checking if item is in stock.")
+    connection.query(
+        "SELECT * FROM products WHERE ?",
+        {
+            item_id: customerPick
+        },
+        function (err, res) {
+            if (err) throw err;
+            //console.log("item displayed" + customerPick);
+            //console.log(res);
+
+            //checking if the item is in stock
+            if (quantityRequired <= res[0].stock_quantity) {
+                console.log("Your order has been processed!");
+                totalCost = res[0].price * quantityRequired;
+                console.log("Total Cost:" + " " + totalCost);
+
+                //calculating the stock quantity after sale
+                stockRemaining = res[0].stock_quantity - quantityRequired;
+
+                connection.query(
+
+                    //updating the stock
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: stockRemaining
+                        },
+                        {
+                            item_id: customerPick
+                        }
+                    ],
+                    function (err, res) {
+                        if (err) throw err;
+                        //console.log("Item updated");
+                        //console.log(res);
+                    }
+                );
+            } else {
+                console.log("Insufficient Quantity!")
+            }
+        }
+
+    );
+   // connection.end();
+}
+
+
+
+//********************CHALLENGE 2 ******************//
 
