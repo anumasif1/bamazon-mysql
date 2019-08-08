@@ -103,7 +103,7 @@ function checkAvailability(customer) {
             if (quantityRequired <= res[0].stock_quantity) {
                 console.log("Your order has been processed!");
                 totalCost = res[0].price * quantityRequired;
-                console.log("Total Cost:" + " " + totalCost);
+                console.log("Total Cost:" + " " + "$" + totalCost);
 
                 //calculating the stock quantity after sale
                 stockRemaining = res[0].stock_quantity - quantityRequired;
