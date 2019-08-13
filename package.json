@@ -4,6 +4,7 @@
   "description": "The app will take in orders from customers and deplete stock from the store's inventory. (MySQL, Node, JS)",
   "main": "bamazonCustomer.js",
   "dependencies": {
+    "cli-table": "^0.3.1",
     "inquirer": "^6.5.0",
     "mysql": "^2.17.1",
     "node": "^12.7.0"

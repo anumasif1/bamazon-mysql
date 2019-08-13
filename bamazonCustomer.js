@@ -1,5 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+//var Table = require("cli-table");
+//var table = new Table();
 var customerPick;
 var quantityRequired;
 var stockRemaining;
@@ -64,6 +66,7 @@ function askCustomer() {
 
             //call readProductID to display the item customer needs
             readProductID();
+           // connection.end();
 
         })
 }
@@ -132,7 +135,7 @@ function checkAvailability(customer) {
         }
 
     );
-   // connection.end();
+   //connection.end();
 }
 
 

@@ -20,9 +20,24 @@ VALUES
 ("Jumpsuit", "Clothing", 65, 30), 
 ("Denim Leggings", "CLothing", 80, 400), 
 ("Samsung 65inch TV", "Electronics", 1100, 45), 
-("Philips XL Airfryer", "Appliances", 560,120);
+("Philips XL Airfryer", "Appliances", 560,120),
+("Lego Set", "Toys", 150, 3),
+("Basketball", "Sports", 35, 2);
 
 Select * from products;
+
+CREATE table departments(
+departments_id INT NOT NULL auto_increment,
+department_name varchar(50) NOT NULL,
+over_head_costs INT not null,
+primary key (departments_id)
+);
+
+select * from departments;
+
+
+ALTER TABLE products
+ADD COLUMN product_sales INT NOT NULL DEFAULT 0;
 
 
 
