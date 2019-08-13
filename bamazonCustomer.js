@@ -66,7 +66,7 @@ function askCustomer() {
 
             //call readProductID to display the item customer needs
             readProductID();
-           // connection.end();
+            // connection.end();
 
         })
 }
@@ -135,10 +135,52 @@ function checkAvailability(customer) {
         }
 
     );
-   //connection.end();
+    productSales();
+    //connection.end();
+}
+
+function productSales(customer) {
+    connection.query(
+        "SELECT * FROM products WHERE ?",
+        {
+            item_id: customerPick
+        },
+        function (err, res) {
+            if (err) throw err;
+            //console.log("item displayed" + customerPick);
+            //console.log(res);
+
+            //checking if the item is in stock
+            if (totalCost > 0) {
+                console.log("Product Sales = " + " " + totalCost);
+                connection.query(
+
+                    //updating the stock
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            product_sales: totalCost
+                        },
+                        {
+                            item_id: customerPick
+                        }
+                    ],
+                    function (err, res) {
+                        if (err) throw err;
+                        //console.log("Item updated");
+                        //console.log(res);
+                    }
+                );
+            } else {
+                console.log("0 sales")
+            }
+        }
+
+    );
+    //connection.end();
 }
 
 
 
-//********************CHALLENGE 2 ******************//
+//********************CHALLENGE 1 ******************//
 
