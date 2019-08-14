@@ -13,6 +13,8 @@ This app consists of three files for following users:
 
 Database is created and updated in MySql file bamazon.sql which is then connected to all three js files. 
 
+![bamazonCustomer.js in Terminal](bamazon-customer.png)
+
 ```ruby
 DROP DATABASE IF EXISTS bamazon_DB;
 CREATE DATABASE bamazon_DB;
@@ -187,7 +189,54 @@ function checkAvailability(customer) {
     productSales();
 }
 ```
-Once the order is processed the code then calculates and display the total cost of the purchase.
+Once the order is processed the code then calculates and display the total cost of the purchase. It is then updated in products database altered column "product_Sales"
+
+'''ruby
+
+function productSales(customer) {
+    connection.query(
+        "SELECT * FROM products WHERE ?",
+        {
+            item_id: customerPick
+        },
+        function (err, res) {
+            if (err) throw err;
+            //console.log("item displayed" + customerPick);
+            //console.log(res);
+
+            //checking if the item is in stock
+            if (totalCost > 0) {
+                console.log("Product Sales = " + " " + totalCost);
+                connection.query(
+
+                    //updating the stock
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            product_sales: totalCost
+                        },
+                        {
+                            item_id: customerPick
+                        }
+                    ],
+                    function (err, res) {
+                        if (err) throw err;
+                        //console.log("Item updated");
+                        //console.log(res);
+                    }
+                );
+            } else {
+                console.log("0 sales")
+            }
+        }
+
+    );
+ }
+ ```
+
+ ** bamazonCustomer.js in terminal**
+
+
 
 
 
