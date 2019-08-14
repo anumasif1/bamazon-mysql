@@ -60,11 +60,8 @@ connection.connect(function (err) {
 **--------------------------------------------------------------------------------**
 
 **Bamazon Customer**
-<<<<<<< HEAD
 
 
-=======
->>>>>>> b0d838af4a27b21cee8810d1c3c51a45eb13d955
 ![bamazonCustomer.js in Terminal](bamazon-customer.png)
 
 BamazonCustomer.js first displays the products database in terminal and then prompt inquirer to check what product would customer like to buy and how many units.
@@ -218,16 +215,10 @@ function productSales(customer) {
  }
  ```
 
-<<<<<<< HEAD
 **---------------------------------------------------------------------------------------------------------------**
 
 **Bamazon Manager**
 
-=======
-**---------------------------------------------**
-
-**Bamazon Manager**
->>>>>>> b0d838af4a27b21cee8810d1c3c51a45eb13d955
 This file prompts inquirer to check from manager what function he would like to run.
 
 **Inquirer**
@@ -397,16 +388,10 @@ function addProduct() {
 ```
 ![bamazonManager.js Add Product](manager4.png)
 
-<<<<<<< HEAD
 **------------------------------------------------------------------------------------------------------------------------**
 
 **Bamazon Supervisor**
 
-=======
-**-------------------------------------------------------------------*
-
-**Bamazon Supervisor**
->>>>>>> b0d838af4a27b21cee8810d1c3c51a45eb13d955
 bamazonSupervisor.js performs following 3 functions
 * Inquire what function would suoervisor like to run?
 * View Product sales by department
