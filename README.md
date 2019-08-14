@@ -13,8 +13,6 @@ This app consists of three files for following users:
 
 Database is created and updated in MySql file bamazon.sql which is then connected to all three js files. 
 
-![bamazonCustomer.js in Terminal](bamazon-customer.png)
-
 ```ruby
 DROP DATABASE IF EXISTS bamazon_DB;
 CREATE DATABASE bamazon_DB;
@@ -27,11 +25,9 @@ price INT not null,
 stock_quantity int not null,
 PRIMARY KEY (item_id)
 );
-INSERT into products( product_name, department_name, price, stock_quantity)
-VALUES 
---products entries goes here--
-Select * from products;
+```
 
+```ruby
 CREATE table departments(
 departments_id INT NOT NULL auto_increment,
 department_name varchar(50) NOT NULL,
@@ -45,10 +41,10 @@ It is then connected to all js files using standard method.
 
 ```ruby
 
-//create the connection information for the sql database
+/create the connection information for the sql database/
 var connection = mysql.createConnection({
     host: "localhost",
-    //port, username, password and database name.
+    /port, username, password and database name./
     port: 3306,
     user: "root",
     password: "root",
@@ -58,24 +54,21 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connections id" + " " + connection.threadId);
-
-    //calling function select all (defined below) to display the list of items in sql.
-    selectAll();
-
-    //call askCustomer()  (defined below) to prompt inquirer
-    askCustomer();
 });
 ```
 
 **Bamazon Customer**
-BamazonCustomer.js first displays the products database in terminal and then prompt inquirer to check what product would customer like to buy and how many units:
+![bamazonCustomer.js in Terminal](bamazon-customer.png)
+
+BamazonCustomer.js first displays the products database in terminal and then prompt inquirer to check what product would customer like to buy and how many units.
 
 **Function SelectAll();**
+Function selectAll select entire data from table "product" in bamazon.sql file.
+
 ```ruby
 
 function selectAll() {
-
-    //select entire data from table "product" in bamazon.sql file.
+   
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         console.log(res);
@@ -84,10 +77,11 @@ function selectAll() {
 ```
 
 **Function askCustomer();**
+inquirer to check which product does customer require
+
 ```ruby
 function askCustomer() {
 
-    //inquirer to check which product does customer require
     inquirer
         .prompt([
             {
@@ -105,12 +99,6 @@ function askCustomer() {
         .then(function (customer) {
             customerPick = customer.productID;
             quantityRequired = customer.units;
-            //console.log("Product ID:" + " " + customerPick);
-            //console.log("Quantity:" + " " + quantityRequired);
-
-            //call readProductID to display the item customer needs
-            readProductID();
-            // connection.end();
 
         })
 }
@@ -120,7 +108,6 @@ Once user selects the product and id the code then check for the item in sql dat
 ```ruby
 
 function readProductID(customer) {
-    //console.log("User's Cart...\n");
     connection.query(
         "SELECT * FROM PRODUCTS WHERE ?",
         {
@@ -134,7 +121,7 @@ function readProductID(customer) {
         }
     );
 
-    //call checkAvailability() to check if required item is in stock and to update it's count if it is.
+    /call checkAvailability() to check if required item is in stock and to update it's count if it is./
     checkAvailability();
 }
 ```
@@ -142,7 +129,7 @@ function readProductID(customer) {
 ```ruby
 
 function checkAvailability(customer) {
-    //console.log("Checking if item is in stock.")
+    /console.log("Checking if item is in stock.")/
     connection.query(
         "SELECT * FROM products WHERE ?",
         {
@@ -150,21 +137,19 @@ function checkAvailability(customer) {
         },
         function (err, res) {
             if (err) throw err;
-            //console.log("item displayed" + customerPick);
-            //console.log(res);
 
-            //checking if the item is in stock
+            /checking if the item is in stock and updating inventory/
             if (quantityRequired <= res[0].stock_quantity) {
                 console.log("Your order has been processed!");
                 totalCost = res[0].price * quantityRequired;
                 console.log("Total Cost:" + " " + "$" + totalCost);
 
-                //calculating the stock quantity after sale
+                
                 stockRemaining = res[0].stock_quantity - quantityRequired;
 
                 connection.query(
 
-                    //updating the stock
+                  
                     "UPDATE products SET ? WHERE ?",
                     [
                         {
@@ -176,8 +161,6 @@ function checkAvailability(customer) {
                     ],
                     function (err, res) {
                         if (err) throw err;
-                        //console.log("Item updated");
-                        //console.log(res);
                     }
                 );
             } else {
@@ -191,7 +174,7 @@ function checkAvailability(customer) {
 ```
 Once the order is processed the code then calculates and display the total cost of the purchase. It is then updated in products database altered column "product_Sales"
 
-'''ruby
+```ruby
 
 function productSales(customer) {
     connection.query(
@@ -201,15 +184,11 @@ function productSales(customer) {
         },
         function (err, res) {
             if (err) throw err;
-            //console.log("item displayed" + customerPick);
-            //console.log(res);
 
-            //checking if the item is in stock
             if (totalCost > 0) {
                 console.log("Product Sales = " + " " + totalCost);
                 connection.query(
 
-                    //updating the stock
                     "UPDATE products SET ? WHERE ?",
                     [
                         {
@@ -221,8 +200,6 @@ function productSales(customer) {
                     ],
                     function (err, res) {
                         if (err) throw err;
-                        //console.log("Item updated");
-                        //console.log(res);
                     }
                 );
             } else {
@@ -234,11 +211,173 @@ function productSales(customer) {
  }
  ```
 
- ** bamazonCustomer.js in terminal**
+**---------------------------------------------**
 
+**Bamazon Manager**
+This file prompts inquirer to check from manager what function he would like to run.
 
+**Inquire**
+```Ruby
+function start() {
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                name: "managerOptions",
+                message: "What function do you want the app to run?",
+                choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
+            }
+        ]).then(function (manager) {
+            managerFunction = manager.managerOptions;
+            console.log(managerFunction);
 
+            if (managerFunction === "View Products for Sale") {
+                viewProducts();
+            }
+            else if (managerFunction === "View Low Inventory") {
+                lowInventory();
+            }
+            else if (managerFunction === "Add to Inventory") {
+                addInventory();
+            }
+            else if (managerFunction === "Add New Product") {
+                addProduct();
+            }
+        });
+}
+```
 
+**bamazonManager.js in terminal:**
+viewProducts(); display entire database "products"
+```ruby
+function viewProducts(manager) {
+    /select and display entire data from table "product" in bamazon.sql file./
+    connection.query("SELECT * FROM products",
+        function (err, res) {
+            if (err) throw err;
+            console.log("\n Database of products for sale \n");
+            var table = new Table({
+                head: ['item_id', "product_name", "department_name", 'price', 'stock_quantity', 'product_sales']
+            });
+            for (var i = 0; i < res.length; i++) {
+                table.push([res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity, res[i].product_sales]);
+            }
+            console.log(table.toString());
+        });
+}
 
+```
+![bamazonManager.js View Products](manager1.png)
 
+lowInventory(); display all products with stock less than or equal to 5
 
+```ruby
+function lowInventory() {
+    /displaying products less than 5 in quantity/
+    connection.query('SELECT * FROM products WHERE stock_quantity < 5',
+        function (err, res) {
+            if (err) throw err;
+            console.log('\n  All products with quantity lower than 5 \n');
+            var table = new Table({
+                head: ['item_id', "product_name", "department_name", 'price', 'stock_quantity', 'product_sales']
+            });
+            for (var i = 0; i < res.length; i++) {
+                table.push([res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity, res[i].product_sales]);
+            }
+            console.log(table.toString());
+        })
+}
+```
+
+![bamazonManager.js Low Inventory](manager2.png)
+
+addInventory(); updates the inventory of specified product
+
+```ruby
+
+function addInventory() {
+    /inquirer to confirm product ID and quantity to be updates/
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "productID",
+                message: "Please enter ID of the product to change it's inventory!"
+            },
+            {
+                type: "input",
+                name: "quantity",
+                message: "How much quantity do you have?"
+            }
+        ])
+        .then(function (answer) {
+            /update the quantity on database/
+            connection.query(
+                "UPDATE products SET ? WHERE ?",
+                [
+                    {
+                        stock_quantity: answer.quantity
+                    },
+                    {
+                        item_id: answer.productID
+                    }
+                ],
+                function (err) {
+                    if (err) throw err;
+                    console.log("\n Inventory has been updated! \n");
+                }
+            )
+        })
+}
+```
+![bamazonManager.js Add Inventory](manager3.png)
+
+addProduct(); allows user to add new product in the database
+
+```ruby
+function addProduct() {
+    /inquirer on the new product and information required for the database/
+    inquirer
+        .prompt([
+            {
+                name: "item",
+                type: "input",
+                message: "What is the product you would like to sell?"
+            },
+            {
+                name: "department",
+                type: "input",
+                message: "Which department would you like to place your product in?"
+            },
+            {
+                name: "price",
+                type: "input",
+                message: "What is the price of the product?"
+            },
+            {
+                name: "quantity",
+                type: "input",
+                message: "How much quantity of the product do you have in stock?"
+            }
+        ])
+        .then(function (answer) {
+            connection.query(
+                /insert new product in database products/
+                "INSERT INTO products SET?",
+                {
+                    product_name: answer.item,
+                    department_name: answer.department,
+                    price: answer.price,
+                    stock_quantity: answer.quantity
+                },
+                function (err) {
+                    if (err) throw err;
+                    console.log("Your product has been added");
+                    /Calling start function again for next action /
+                    start();
+                }
+            );
+        });
+}
+```
+![bamazonManager.js Add Product](manager4.png)
