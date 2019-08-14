@@ -1,8 +1,9 @@
+[![star this repo](http://githubbadges.com/star.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql)
+[![fork this repo](http://githubbadges.com/fork.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql/fork)
+
 # bamazon-mysql
 Bamazon is a shopping app based on Amazon concept. It will take in orders from customers and deplete stock from the store's inventory using MySQL, Node.js and Inquirer.
 
-[![star this repo](http://githubbadges.com/star.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql)
-[![fork this repo](http://githubbadges.com/fork.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql/fork)
 
 **Node Packages used for this program:**
 * Inquirer
