@@ -1,3 +1,4 @@
+[![HitCount](http://hits.dwyl.io/anumasif1/bamazon-mysql.svg)](http://hits.dwyl.io/anumasif1/bamazon-mysql)
 [![star this repo](http://githubbadges.com/star.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql)
 [![fork this repo](http://githubbadges.com/fork.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql/fork)
 
