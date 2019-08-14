@@ -27,19 +27,7 @@ PRIMARY KEY (item_id)
 );
 INSERT into products( product_name, department_name, price, stock_quantity)
 VALUES 
-("Wing Chair", "Furniture", 750, 15), 
-("Coffee Table", "Furniture", 300, 20), 
-("Nightstand", "Furniture", 250, 25), 
-("Twix Bars", "Grocery", 4.5, 350), 
-("Lays Family Pack", "Grocery", 5, 500), 
-("Truck", "Toys",  24, 50), 
-("Jumpsuit", "Clothing", 65, 30), 
-("Denim Leggings", "CLothing", 80, 400), 
-("Samsung 65inch TV", "Electronics", 1100, 45), 
-("Philips XL Airfryer", "Appliances", 560,120),
-("Lego Set", "Toys", 150, 3),
-("Basketball", "Sports", 35, 2);
-
+--products entries goes here--
 Select * from products;
 
 CREATE table departments(
@@ -50,35 +38,8 @@ primary key (departments_id)
 );
 
 select * from departments;
-
-
-ALTER TABLE products
-ADD COLUMN product_sales INT NOT NULL DEFAULT 0;
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
-
-SELECT 
-    departments.departments_id,
-    departments.department_name,
-    departments.over_head_costs,
-    products.product_sales,
-    (products.product_sales - departments.over_head_costs) AS total_profit
-FROM
-    departments
-        INNER JOIN
-    products ON (departments.department_name = products.department_name);
-
-SELECT * FROM departments;
-
-select * from products;
-
-insert into departments
-(department_name, over_head_costs)
-values ('Furniture',1000),
-('Grocery', 1500),
-('Clothing', 1200)
-
-
 ```
+
 
 **Bamazon Customer**
 
