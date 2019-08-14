@@ -39,8 +39,34 @@ primary key (departments_id)
 
 select * from departments;
 ```
+It is then connected to all js files using standard method.
+
+```ruby
+
+//create the connection information for the sql database
+var connection = mysql.createConnection({
+    host: "localhost",
+    //port, username, password and database name.
+    port: 3306,
+    user: "root",
+    password: "root",
+    database: "bamazon_DB"
+});
+
+connection.connect(function (err) {
+    if (err) throw err;
+    console.log("connections id" + " " + connection.threadId);
+
+    //calling function select all to display the list of items in sql
+    selectAll();
+
+    //call askCustomer() to prompt inquirer
+    askCustomer();
+});
+```
 
 
 **Bamazon Customer**
+
 
 
