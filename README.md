@@ -1,6 +1,9 @@
 # bamazon-mysql
 Bamazon is a shopping app based on Amazon concept. It will take in orders from customers and deplete stock from the store's inventory using MySQL, Node.js and Inquirer.
 
+[![star this repo](http://githubbadges.com/star.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql)
+[![fork this repo](http://githubbadges.com/fork.svg?user=anumasif1&repo=bamazon-mysql&style=default)](https://github.com/anumasif1/bamazon-mysql/fork)
+
 **Node Packages used for this program:**
 * Inquirer
 * CLI-Table
@@ -59,7 +62,7 @@ connection.connect(function (err) {
 
 **--------------------------------------------------------------------------------**
 
-**Bamazon Customer**
+##Bamazon Customer
 
 
 ![bamazonCustomer.js in Terminal](bamazon-customer.png)
@@ -217,7 +220,7 @@ function productSales(customer) {
 
 **---------------------------------------------------------------------------------------------------------------**
 
-**Bamazon Manager**
+##Bamazon Manager
 
 This file prompts inquirer to check from manager what function he would like to run.
 
@@ -390,7 +393,7 @@ function addProduct() {
 
 **------------------------------------------------------------------------------------------------------------------------**
 
-**Bamazon Supervisor**
+##Bamazon Supervisor
 
 bamazonSupervisor.js performs following 3 functions
 * Inquire what function would suoervisor like to run?
