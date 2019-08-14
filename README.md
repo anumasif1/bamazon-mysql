@@ -57,16 +57,139 @@ connection.connect(function (err) {
     if (err) throw err;
     console.log("connections id" + " " + connection.threadId);
 
-    //calling function select all to display the list of items in sql
+    //calling function select all (defined below) to display the list of items in sql.
     selectAll();
 
-    //call askCustomer() to prompt inquirer
+    //call askCustomer()  (defined below) to prompt inquirer
     askCustomer();
 });
 ```
 
-
 **Bamazon Customer**
+BamazonCustomer.js first displays the products database in terminal and then prompt inquirer to check what product would customer like to buy and how many units:
+
+**Function SelectAll();**
+```ruby
+
+function selectAll() {
+
+    //select entire data from table "product" in bamazon.sql file.
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+        console.log(res);
+    });
+}
+```
+
+**Function askCustomer();**
+```ruby
+function askCustomer() {
+
+    //inquirer to check which product does customer require
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "productID",
+                message: "What is the ID of the product you want to buy?"
+            },
+            {
+                type: "input",
+                name: "units",
+                message: "How many units of product do you need?"
+            }
+        ])
+
+        .then(function (customer) {
+            customerPick = customer.productID;
+            quantityRequired = customer.units;
+            //console.log("Product ID:" + " " + customerPick);
+            //console.log("Quantity:" + " " + quantityRequired);
+
+            //call readProductID to display the item customer needs
+            readProductID();
+            // connection.end();
+
+        })
+}
+```
+Once user selects the product and id the code then check for the item in sql database. It will process the order if the item is in stock, update the inventory in database and run message "Your order has been processed". In case product is out of strock, it will run message "Insufficient Quantity!".
+
+```ruby
+
+function readProductID(customer) {
+    //console.log("User's Cart...\n");
+    connection.query(
+        "SELECT * FROM PRODUCTS WHERE ?",
+        {
+            item_id: customerPick
+        },
+
+        function (err, res) {
+            if (err) throw err;
+            console.log("item displayed" + customerPick);
+            console.log(res);
+        }
+    );
+
+    //call checkAvailability() to check if required item is in stock and to update it's count if it is.
+    checkAvailability();
+}
+```
+
+```ruby
+
+function checkAvailability(customer) {
+    //console.log("Checking if item is in stock.")
+    connection.query(
+        "SELECT * FROM products WHERE ?",
+        {
+            item_id: customerPick
+        },
+        function (err, res) {
+            if (err) throw err;
+            //console.log("item displayed" + customerPick);
+            //console.log(res);
+
+            //checking if the item is in stock
+            if (quantityRequired <= res[0].stock_quantity) {
+                console.log("Your order has been processed!");
+                totalCost = res[0].price * quantityRequired;
+                console.log("Total Cost:" + " " + "$" + totalCost);
+
+                //calculating the stock quantity after sale
+                stockRemaining = res[0].stock_quantity - quantityRequired;
+
+                connection.query(
+
+                    //updating the stock
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: stockRemaining
+                        },
+                        {
+                            item_id: customerPick
+                        }
+                    ],
+                    function (err, res) {
+                        if (err) throw err;
+                        //console.log("Item updated");
+                        //console.log(res);
+                    }
+                );
+            } else {
+                console.log("Insufficient Quantity!")
+            }
+        }
+
+    );
+    productSales();
+}
+```
+Once the order is processed the code then calculates and display the total cost of the purchase.
+
+
 
 
 
