@@ -67,7 +67,7 @@ connection.connect(function (err) {
 ##Bamazon Customer
 
 
-![bamazonCustomer.js in Terminal](bamazon-customer.png)
+![bamazonCustomer in Terminal](bamazon-customer.png)
 
 BamazonCustomer.js first displays the products database in terminal and then prompt inquirer to check what product would customer like to buy and how many units.
 
@@ -278,7 +278,7 @@ function viewProducts(manager) {
 }
 
 ```
-![bamazonManager.js View Products](manager1.png)
+![bamazonManager View Products](manager1.png)
 
 lowInventory(); display all products with stock less than or equal to 5
 
@@ -300,7 +300,7 @@ function lowInventory() {
 }
 ```
 
-![bamazonManager.js Low Inventory](manager2.png)
+![bamazonManager Low Inventory](manager2.png)
 
 addInventory(); updates the inventory of specified product
 
@@ -341,7 +341,7 @@ function addInventory() {
         })
 }
 ```
-![bamazonManager.js Add Inventory](manager3.png)
+![bamazonManager Add Inventory](manager3.png)
 
 addProduct(); allows user to add new product in the database
 
@@ -391,7 +391,7 @@ function addProduct() {
         });
 }
 ```
-![bamazonManager.js Add Product](manager4.png)
+![bamazonManager Add Product](manager4.png)
 
 **------------------------------------------------------------------------------------------------------------------------**
 
@@ -457,7 +457,7 @@ function viewProducts() {
 ```
 
 viewProducts(); in terminal
-![bamazonSupervisor.js View products](supervisor1.png)
+![bamazonSupervisor View products](supervisor1.png)
 
 **Add Department**
 
@@ -499,7 +499,7 @@ function addDepartment() {
 
 ```
 
-![bamazonSupervisor.js Add Department](supervisor2.png)
+![bamazonSupervisor Add Department](supervisor2.png)
 
 
 
